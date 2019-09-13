@@ -1,6 +1,7 @@
 package viosystems.digitaltest.gui;
 
 import org.fluentlenium.core.FluentControl;
+import org.fluentlenium.core.domain.FluentWebElement;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -23,25 +24,20 @@ public class HeadlessChromeTest extends HeadlessChromeConfig {
 
     @SuppressWarnings("Duplicates")
     @Test
-    public void ajaxCallTest() {
+    public void ajaxCallTest() throws InterruptedException {
         goTo(URL);
         await().until(el(By.className(SUBMIT_BTN_NEXT))).clickable();
         el(By.id("username")).write("BillyBob12");
         el(By.id("password")).write("BillyBob12");
-        takeScreenshot();
         el(By.className(SUBMIT_BTN_NEXT)).click();
-        await().until(el(By.id("firstName")));
-        takeScreenshot();
+        final FluentWebElement firstName = el(By.id("firstName"));
+        await().until(firstName).present();
+        assertThat(firstName.value()).isEqualTo("Jim");
 
-        //await().atMost(5, TimeUnit.SECONDS).untilPredicate(ajaxCallCompleted);
-        //assertThat(el(ALERT_RESULT_CSS).text()).isEqualTo(SUCCESS_TEXT);
+
     }
 
-    private Predicate<FluentControl> ajaxCallCompleted = fluent -> {
-        final JavascriptExecutor driver = (JavascriptExecutor) getDriver();
-        return (Boolean) driver
-                .executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
-    };
+
 
 }
 
