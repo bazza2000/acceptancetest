@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class HeadlessChromeTest extends HeadlessChromeConfig {
 
-    private static final String URL = "http://localhost:3000/EnterUsername";
+    private static final String URL = "https://demo.viosystems.com/EnterUsername";
     private static final String SUCCESS_TEXT = "HTTP 200 OK";
 
     private static final String SUBMIT_BTN_NEXT = "button__submit-btn--next";
@@ -33,8 +33,6 @@ public class HeadlessChromeTest extends HeadlessChromeConfig {
         final FluentWebElement firstName = el(By.id("firstName"));
         await().until(firstName).present();
         assertThat(firstName.value()).isEqualTo("Jim");
-
-
     }
 
 
