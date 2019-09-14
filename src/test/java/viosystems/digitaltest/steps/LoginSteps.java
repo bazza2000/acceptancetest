@@ -32,7 +32,7 @@ public class LoginSteps extends FluentCucumberTest {
 
     }
 
-    @When("^the user enters the credentials for user \"([^\"]*)\"$")
+    @When("^the user submits the credentials for user \"([^\"]*)\"$")
     public void theUserEntersTheCredentialsForUser(String arg1) throws Throwable {
         el(By.id("username")).write("BillyBob12");
         el(By.id("password")).write("BillyBob12");
@@ -40,7 +40,7 @@ public class LoginSteps extends FluentCucumberTest {
 
     }
 
-    @Then("^I expect to be greeted with \"([^\"]*)\"$")
+    @Then("^I expect them to be shown the profile for \"([^\"]*)\"$")
     public void iExpectToBeGreetedWith(String arg1) throws Throwable {
         takeScreenshot("target/dump.png");
         final FluentWebElement firstName = el(By.id("firstName"));

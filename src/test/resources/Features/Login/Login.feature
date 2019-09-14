@@ -1,10 +1,10 @@
 @JIRA-222
-Feature: Login
+Feature: Login Feature
 
   @JIRA-123
-  Scenario: Login with Username and Password
-    Given the system is running at "https://vio"
-    When the user enters the credentials for user "Jim Lack"
-    Then I expect to be greeted with "Hello Jim"
+  Scenario: Login with Username and Password Story
+    Given the system is running at "http://demo.viosystems.com/EnterUsername"
+    When the user submits the credentials for user "Jim Lack"
+    Then I expect them to be shown the profile for "Jim"
 
 
