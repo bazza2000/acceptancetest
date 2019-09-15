@@ -21,7 +21,7 @@ import static org.fluentlenium.assertj.FluentLeniumAssertions.assertThat;
 
 public class LoginSteps extends FluentCucumberTest {
 
-    private static final String URL = "https://demo.viosystems.com/EnterUsername";
+    private static final String URL = "http://localhost:3000/EnterUsername";
     private static final String SUBMIT_BTN_NEXT = "button__submit-btn--next";
 
     @Given("^the system is running at \"([^\"]*)\"$")
@@ -32,20 +32,36 @@ public class LoginSteps extends FluentCucumberTest {
 
     }
 
-    @When("^the user submits the credentials for user \"([^\"]*)\"$")
-    public void theUserEntersTheCredentialsForUser(String arg1) throws Throwable {
-        el(By.id("username")).write("BillyBob12");
-        el(By.id("password")).write("BillyBob12");
+    @When("^the user submits valid username and password credentials$")
+    public void theUserEntersTheCredentialsForUser() throws Throwable {
+        el(By.id("username")).write("jimbo");
+        el(By.id("password")).write("anything");
         el(By.className(SUBMIT_BTN_NEXT)).click();
 
     }
 
-    @Then("^I expect them to be shown the profile for \"([^\"]*)\"$")
-    public void iExpectToBeGreetedWith(String arg1) throws Throwable {
+    @When("^the user submits unknown username and password credentials$")
+    public void theUserEntersUnknownCredentials() throws Throwable {
+        el(By.id("username")).write("anything");
+        el(By.id("password")).write("anything");
+        el(By.className(SUBMIT_BTN_NEXT)).click();
+
+    }
+
+    @Then("^I expect them to be authenticated and allowed access to their profile$")
+    public void iExpectToBeGreetedWith() throws Throwable {
         takeScreenshot("target/dump.png");
         final FluentWebElement firstName = el(By.id("firstName"));
         await().until(firstName).present();
-        assertThat(firstName.value()).isEqualTo("Jim");
+        assertThat("Jim").isEqualTo(firstName.value());
+    }
+
+    @Then("^I expect them to be denied access$")
+    public void iExpectThemToBeDeniedAccess() throws Throwable {
+        takeScreenshot("target/dump.png");
+        final FluentWebElement firstName = el(By.id("firstName"));
+        await().until(firstName).present();
+        assertThat("Unknown").isEqualTo(firstName.value());
     }
 
     @Before
