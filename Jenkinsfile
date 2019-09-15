@@ -9,13 +9,15 @@ pipeline {
         }
 
       }
-      steps {
-        sh 'mvn -B clean test sonar:sonar -Dsonar.host.url=http://sonarqube:9000'
-      }
       post {
         always {
-            junit 'target/surefire-reports/*.xml'
+          junit 'target/surefire-reports/*.xml'
+
         }
+
+      }
+      steps {
+        sh 'mvn -B clean test'
       }
     }
   }
