@@ -21,13 +21,12 @@ import static org.fluentlenium.assertj.FluentLeniumAssertions.assertThat;
 
 public class LoginSteps extends FluentCucumberTest {
 
-    private static final String URL = "http://localhost:3000/EnterUsername";
     private static final String SUBMIT_BTN_NEXT = "button__submit-btn--next";
 
     @Given("^the system is running at \"([^\"]*)\"$")
-    public void theSystemIsRunningAt(String arg1) throws Throwable {
+    public void theSystemIsRunningAt(String url) throws Throwable {
 
-        goTo(URL);
+        goTo(url);
         await().until(el(By.className(SUBMIT_BTN_NEXT))).clickable();
 
     }
