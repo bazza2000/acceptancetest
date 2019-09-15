@@ -5,7 +5,7 @@ pipeline {
       agent {
         docker {
           image 'markhobson/maven-chrome'
-          args '-v /root/.m2:/root/.m2 -v /root/artifacts:/artifacts'
+          args '-v /root/.m2:/root/.m2 -v /root/artifacts:/artifacts  --network sonar-qube_default'
         }
 
       }
@@ -17,7 +17,7 @@ pipeline {
 
       }
       steps {
-        sh 'mvn -B clean test'
+        sh 'mvn -B clean test sonar:sonar -Dsonar.host.url=http://sonarqube:9000'
       }
     }
   }
