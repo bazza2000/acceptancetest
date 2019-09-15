@@ -21,4 +21,9 @@ pipeline {
       }
     }
   }
+  triggers {
+    GenericTrigger(genericVariables: [
+                    [key: 'ref', value: '$.ref']
+                  ], causeString: 'Triggered on $ref', token: 'acceptancetest', printContributedVariables: true, printPostContent: true, silentResponse: false)
+    }
 }
