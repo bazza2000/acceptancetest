@@ -5,17 +5,23 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.cucumber.core.api.Scenario;
+import io.cucumber.java.After;
 import org.fluentlenium.adapter.cucumber.FluentCucumberTest;
 import org.fluentlenium.configuration.FluentConfiguration;
 import org.fluentlenium.core.domain.FluentWebElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static org.fluentlenium.assertj.FluentLeniumAssertions.assertThat;
 
@@ -49,7 +55,6 @@ public class LoginSteps extends FluentCucumberTest {
 
     @Then("^I expect them to be authenticated and allowed access to their profile$")
     public void iExpectToBeGreetedWith() throws Throwable {
-        takeScreenshot("target/dump.png");
         final FluentWebElement firstName = el(By.id("firstName"));
         await().until(firstName).present();
         assertThat("Jim").isEqualTo(firstName.value());
@@ -58,7 +63,7 @@ public class LoginSteps extends FluentCucumberTest {
 
     @Then("^I expect them to be denied access$")
     public void iExpectThemToBeDeniedAccess() throws Throwable {
-        takeScreenshot("target/dump.png");
+        takeScreenshot();
         final FluentWebElement firstName = el(By.id("firstName"));
         await().until(firstName).present();
         assertThat("Unknown").isEqualTo(firstName.value());
@@ -69,9 +74,15 @@ public class LoginSteps extends FluentCucumberTest {
         this.initFluent(newWebDriver());
     }
 
+    @After
+    public void after(Scenario scenario) {
+
+        WebDriver augmentedDriver = new Augmenter().augment(getDriver());
+        byte[] s = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.BYTES);
+        scenario.embed(s, "image/png");
+    }
+
     private static final String HEADLESS = "headless";
-
-
 
     @Override
     public WebDriver newWebDriver() {
