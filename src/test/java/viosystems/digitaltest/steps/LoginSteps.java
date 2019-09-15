@@ -63,7 +63,6 @@ public class LoginSteps extends FluentCucumberTest {
 
     @Then("^I expect them to be denied access$")
     public void iExpectThemToBeDeniedAccess() throws Throwable {
-        takeScreenshot();
         final FluentWebElement firstName = el(By.id("firstName"));
         await().until(firstName).present();
         assertThat("Unknown").isEqualTo(firstName.value());
